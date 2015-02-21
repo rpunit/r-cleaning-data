@@ -17,7 +17,7 @@ train_x_o <- read.table("UCI_HAR_Dataset/train/X_train.txt")
 train_x <- train_x_o
 colnames(train_x) <- features_label$feature
 # filter out only the mean and std deviation colums
-filter_cols <- grep("(mean|std)", colnames(train_x))
+filter_cols <- grep("(mean\\(\\)|std\\(\\))", colnames(train_x))
 # Get only these cols and filter out the rest
 train_x <- train_x[, filter_cols]
 
@@ -60,8 +60,5 @@ t_x <- rbind(test_x, train_x)
 t_x <- arrange(t_x, t_x$subject_id, t_x$activity_id)
 
 ##  Now split the merged data by subject_id and activity
-df <- ddply(t_x[, 1:81], .(subject_id,activity_id),  colwise(mean))
+df <- ddply(t_x[, 1:68], .(subject_id,activity_id),  colwise(mean))
 write.table(df, file="summary.txt", row.name=FALSE)
-
-
-             
